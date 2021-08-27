@@ -12,15 +12,24 @@ describe DockingStation do
     end
 
     it 'we cant release a bike if we dont dock one first' do
-      expect{ subject.release_bike }.to raise_error("No bikes available")
+      expect { subject.release_bike }.to raise_error("No bikes available")
     end
 
   end
 
-  it 'bike is docked' do 
-    bike = Bike.new
-    subject.dock(bike)
-    expect(bike).to eq bike
-  end
+  describe '#dock' do
+
+    it 'bike is docked' do 
+      bike = Bike.new
+      subject.dock(bike)
+      expect(bike).to eq bike
+    end
+
+    it 'if one bike is docked you cannot dock another' do
+      subject.dock(Bike.new)
+      expect { subject.dock(Bike.new) }.to raise_error("Docking station full")
+    end
   
+  end
+
 end
